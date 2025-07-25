@@ -1,0 +1,1 @@
+const forniture = ` INSERT INTO forniture VALUES ('Muebles para niños', 'Muebles de alta calidad para comprar');`

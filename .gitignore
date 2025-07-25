@@ -1,0 +1,10 @@
+# Ignorar la carpeta node_modules
+node_modules/
+
+# Ignorar el archivo package-lock.json
+package-lock.json
+
+# Otros archivos comunes de Node.js que puedes ignorar
+.env
+dist/
+build/

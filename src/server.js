@@ -56,6 +56,23 @@ app.get("/category",(_, res)=>{
     })
 })
 
+//Actualizar una categoria
+app.put("/category/:id", (req, res)=>{
+    const { id } = req.params;
+    const { name } = req.body;
+    const query = `CALL updateCategory(?,?)`
+    db.query(query, [id, name], (err, result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento', err)
+            return res.status(500).json({ message: err.message || 'Error al actualizar la categoria'})
+        }
+        else{
+            return res.status(200).json({ success: true, message: result[0]?.[0]?.mensaje})
+        }
+    })
+})
+
+
 //-----------------------------------------------------------------------------------------------
 
 app.listen(PORT, ()=>{

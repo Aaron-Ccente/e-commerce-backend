@@ -73,6 +73,22 @@ app.put("/category/:id", (req, res)=>{
 })
 
 
+//Eliminar una categoria
+app.delete("/category/:id",(req, res)=>{
+    const { id } = req.params;
+    const query = `CALL deleteCategory(?)`;
+    db.query(query, [id], (err, result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento almacenado', err)
+            return res.status(500).json({ message: err.message})
+        }
+        else{
+            return res.status(200).json({ success: true, message: result[0]?.[0]?.mensaje})
+        }
+    })
+
+})
+
 //-----------------------------------------------------------------------------------------------
 
 app.listen(PORT, ()=>{

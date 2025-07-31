@@ -106,7 +106,19 @@ app.post("/users", (req,res)=>{
     })
 })
 
-
+app.post("/login",(req,res)=>{
+    const {email, password} = req.body;
+    const query = `CALL loginUserOrAdmin(?,?)`
+    db.query(query, [email, password], (err,result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento', err)
+            return res.status(500).json({message: err.message || 'Error al iniciar sesión'})
+        }
+        else{
+            return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
+        }
+    })
+})
 
 //-----------------------------------------------------------------------------------------------
 

@@ -126,7 +126,7 @@ app.post("/login",(req,res)=>{
 app.put("/user/:id", (req, res)=>{
     const { id } = req.params;
     const { name, lastname, phone } = req.body;
-    const query = `CALL updateUser()`;
+    const query = `CALL updateUser(?,?,?,?)`;
     db.query(query, [id, name, lastname, phone], (err,result)=>{
         if(err){
             console.log('Error al ejecutar el procedimiento', err)
@@ -134,6 +134,21 @@ app.put("/user/:id", (req, res)=>{
         }
         else{
             return res.status(200).json({ success: true, message: result[0]?.[0]?.mensaje })
+        }
+    })
+})
+
+//Para eliminar la cuenta de usuario
+app.delete("/user/:id", (req, res)=>{
+    const {id} = req.params;
+    const query = `CALL deleteUser(?)`
+    db.query(query, [id], (err, result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento', err)
+            return res.status(500).json({message: err.message || 'Error al eliminar la cuenta de usuario'})
+        }
+        else{
+            return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
         }
     })
 })

@@ -91,8 +91,8 @@ app.delete("/category/:id",(req, res)=>{
 
 //-----------------------------------------------------------------------------------------------
 
-//Crear usuarios
-app.post("/users", (req,res)=>{
+//Crear un usuario
+app.post("/user", (req,res)=>{
     const { email, password, name, lastname, phone, role } = req.body
     const query = `CALL createUser(?,?,?,?,?,?)`
     db.query(query, [email, password, name, lastname, phone, role], (err,result)=>{
@@ -106,6 +106,8 @@ app.post("/users", (req,res)=>{
     })
 })
 
+
+//Para el login de los usuarios
 app.post("/login",(req,res)=>{
     const {email, password} = req.body;
     const query = `CALL loginUserOrAdmin(?,?)`
@@ -116,6 +118,22 @@ app.post("/login",(req,res)=>{
         }
         else{
             return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
+        }
+    })
+})
+
+//Para editar el perfil de un usuario
+app.put("/user/:id", (req, res)=>{
+    const { id } = req.params;
+    const { name, lastname, phone } = req.body;
+    const query = `CALL updateUser()`;
+    db.query(query, [id, name, lastname, phone], (err,result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento', err)
+            return res.status(500).json({message: err.message || 'Error al editar en usuario'})
+        }
+        else{
+            return res.status(200).json({ success: true, message: result[0]?.[0]?.mensaje })
         }
     })
 })

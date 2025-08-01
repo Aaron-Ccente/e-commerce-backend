@@ -145,7 +145,7 @@ app.delete("/user/:id", (req, res)=>{
 //Create one product (name, price, image, description, amount) -> amount is required for stock table with its product
 app.post("/product", (req,res)=>{
     const { name, price, image, description, amount } = req.body;
-    const query = `CALL createProduct()`;
+    const query = `CALL createProduct(?,?,?,?,?)`;
     db.query(query, [name, price, image, description, amount], (err, result)=>{
         if(err){
             console.log('Error al ejecutar el procedimiento', err)
@@ -170,6 +170,23 @@ app.get("/products", (_,res)=>{
         }
     })
 })
+
+//Update one product (name, price, image, description, amount) -> amount is required for stock table with its product
+app.put("/product/:id_product", (req,res)=>{
+    const { id_product }  = req.params;
+    const { name, price, image, description, amount } = req.body;
+    const query = `CALL updateProduct(?,?,?,?,?,?)`;
+    db.query(query, [id_product, name, price, image, description, amount], (err, result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento', err)
+            return res.status(500).json({message: err.message || 'Error al actualizar el producto'})
+        }
+        else{
+            return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
+        }
+    })
+})
+
 
 
 //-----------------------------------------------------------------------------------------------

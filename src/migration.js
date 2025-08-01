@@ -1,6 +1,49 @@
-const forniture = `IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'forniture')
-                    CREATE TABLE IF NOT EXISTS forniture (
-                    id_forniture INT PRIMARY KEY AUTO_INCREMENT,
-                    name VARCHAR(255),
-                    description VARCHAR(400)
+const user = `CREATE TABLE IF NOT EXISTS user (
+                    id_user INT PRIMARY KEY AUTO_INCREMENT,
+                    name VARCHAR(50),
+                    lastname VARCHAR(50),
+                    email VARCHAR(100),
+                    password VARCHAR(50),
+                    image LONGTEXT,
+                    phone VARCHAR(30),
+                    credit DECIMAL(20,2)
+                    );`
+
+const product = `CREATE TABLE IF NOT EXISTS product (
+                    id_product INT PRIMARY KEY AUTO_INCREMENT,
+                    name VARCHAR(50),
+                    price DECIMAL(10,2),
+                    image LONGTEXT,
+                    description VARCHAR(200)
+                    );`
+
+const sale = `CREATE TABLE IF NOT EXISTS sale (
+                    id_sale INT PRIMARY KEY AUTO_INCREMENT,
+                    id_user INT,
+                    id_product INT,
+                    amount TINYINT,
+                    date_sale DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    total_price DECIMAL(20,2),
+                    FOREIGN KEY (id_user) REFERENCES user(id_user),
+                    FOREIGN KEY (id_product) REFERENCES product(id_product)
+                    );`
+
+const user_favorite_product = `CREATE TABLE IF NOT EXISTS user_favorite_product (
+                    id_user_favorite_product INT PRIMARY KEY AUTO_INCREMENT,
+                    id_user INT,
+                    id_product INT,
+                    date_saved DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (id_user) REFERENCES user(id_user),
+                    FOREIGN KEY (id_product) REFERENCES product(id_product)
+                    );`
+
+const category = `CREATE TABLE IF NOT EXISTS category (
+                    id_category INT PRIMARY KEY AUTO_INCREMENT,
+                    name VARCHAR(50)
+                    );`
+
+const product_category = `CREATE TABLE IF NOT EXISTS product_category (
+                    id_product_category INT PRIMARY KEY AUTO_INCREMENT,
+                    id_product INT,
+                    FOREIGN KEY (id_product) REFERENCES product(id_product)
                     );`

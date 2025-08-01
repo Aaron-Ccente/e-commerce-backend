@@ -12,19 +12,6 @@ app.get("/",(_,res)=>{
     res.send("Hello")
 })
 
-app.get("/productos", (_,res)=>{
-    const query = `CALL getAllProducts()`
-    db.query(query,(error, result)=>{
-        if(error){
-            console.log('Error al ejecutar el procedimiento ', error)
-            return res.status(500).json({ message: error.message || 'Error al obtener los productos'})
-        }
-        else{
-            return res.status(200).json({success:true, data: result[0] })
-        }
-    })
-})
-
 //-----------------------------------------------------------------------------------------------
 
 //Endpoint para crear categorias
@@ -152,6 +139,38 @@ app.delete("/user/:id", (req, res)=>{
         }
     })
 })
+
+//-----------------------------------------------------------------------------------------------
+
+//Create one product (name, price, image, description, amount) -> amount is required for stock table with its product
+app.post("/product", (req,res)=>{
+    const { name, price, image, description, amount } = req.body;
+    const query = `CALL createProduct()`;
+    db.query(query, [name, price, image, description, amount], (err, result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento', err)
+            return res.status(500).json({message: err.message || 'Error al crear el producto'})
+        }
+        else{
+            return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
+        }
+    })
+})
+
+//Get all products for see in Cards
+app.get("/products", (_,res)=>{
+    const query = `CALL getAllProducts()`
+    db.query(query,(error, result)=>{
+        if(error){
+            console.log('Error al ejecutar el procedimiento ', error)
+            return res.status(500).json({ message: error.message || 'Error al obtener los productos'})
+        }
+        else{
+            return res.status(200).json({success:true, data: result[0] })
+        }
+    })
+})
+
 
 //-----------------------------------------------------------------------------------------------
 

@@ -257,7 +257,7 @@ app.get("/furniture", (req,res)=>{
 // User buys a piece of furniture
 app.post("/sale", (req, res)=>{
     const { id_user, id_product, amount, total_price } = req.body;
-    const query = `CALL userBuysFurniture()`
+    const query = `CALL userBuysFurniture(?,?,?,?)`
     db.query(query, [id_user, id_product, amount, total_price], (err, result)=>{
         if(err){
             console.log("Error al ejecutar el procedimiento almacenado", err)

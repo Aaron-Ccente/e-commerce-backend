@@ -204,6 +204,23 @@ app.delete("/product/:id_product", (req,res)=>{
 
 //-----------------------------------------------------------------------------------------------
 
+// Get all the user's favorite furniture
+app.get("/favorite", (req, res)=>{
+    const {id} = req.body;
+    const query = `CALL getAllFavorites(?)`
+    db.query(query, [id], (err, result)=>{
+        if(err){
+            console.log("Error al ejecutar el procedimiento", err)
+            return res.status(500).json({message: err.message || "Error al obtener los muebles favoritos"})
+        }
+        else{
+            return res.status(200).json({success: true, data: result[0]?.[0]})
+        }
+    })
+})
+
+//-----------------------------------------------------------------------------------------------
+
 
 app.listen(PORT, ()=>{
     console.log("Server listen in port: ", PORT)

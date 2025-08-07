@@ -17,15 +17,23 @@ const product = `CREATE TABLE IF NOT EXISTS product (
                     description VARCHAR(200)
                     );`
 
-const sale = `CREATE TABLE IF NOT EXISTS sale (
-                    id_sale INT PRIMARY KEY AUTO_INCREMENT,
+const order = `CREATE TABLE IF NOT EXISTS order (
+                    id_order INT PRIMARY KEY AUTO_INCREMENT,
                     id_user INT,
                     id_product INT,
+                    date_order DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    state ENUM('cancelado', 'pendiente', 'completado'),
+                    FOREIGN KEY (id_user) REFERENCES user(id_user),
+                    FOREIGN KEY (id_product) REFERENCES product(id_product)
+                    );`
+
+const sale = `CREATE TABLE IF NOT EXISTS sale (
+                    id_sale INT PRIMARY KEY AUTO_INCREMENT,
+                    id_order INT,
                     amount TINYINT,
                     date_sale DATETIME DEFAULT CURRENT_TIMESTAMP,
                     total_price DECIMAL(20,2),
-                    FOREIGN KEY (id_user) REFERENCES user(id_user),
-                    FOREIGN KEY (id_product) REFERENCES product(id_product)
+                    FOREIGN KEY (id_order) REFERENCES order(id_order)
                     );`
 
 const user_favorite_product = `CREATE TABLE IF NOT EXISTS user_favorite_product (

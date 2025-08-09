@@ -1,3 +1,7 @@
+import db from "./database/db.js"
+
+const dropTables = `DROP TABLE IF EXISTS user, product, user_order, sale, user_favorite_product, category, product_category;`
+
 const user = `CREATE TABLE IF NOT EXISTS user (
                     id_user INT PRIMARY KEY AUTO_INCREMENT,
                     name VARCHAR(50),
@@ -17,7 +21,7 @@ const product = `CREATE TABLE IF NOT EXISTS product (
                     description VARCHAR(200)
                     );`
 
-const order = `CREATE TABLE IF NOT EXISTS order (
+const user_order = `CREATE TABLE IF NOT EXISTS user_order (
                     id_order INT PRIMARY KEY AUTO_INCREMENT,
                     id_user INT,
                     id_product INT,
@@ -33,7 +37,7 @@ const sale = `CREATE TABLE IF NOT EXISTS sale (
                     amount TINYINT,
                     date_sale DATETIME DEFAULT CURRENT_TIMESTAMP,
                     total_price DECIMAL(20,2),
-                    FOREIGN KEY (id_order) REFERENCES order(id_order)
+                    FOREIGN KEY (id_order) REFERENCES user_order(id_order)
                     );`
 
 const user_favorite_product = `CREATE TABLE IF NOT EXISTS user_favorite_product (
@@ -55,3 +59,26 @@ const product_category = `CREATE TABLE IF NOT EXISTS product_category (
                     id_product INT,
                     FOREIGN KEY (id_product) REFERENCES product(id_product)
                     );`
+
+
+
+
+const migration = `${dropTables}
+                   ${user}
+                   ${product}
+                   ${user_order}
+                   ${sale}
+                   ${user_favorite_product}
+                   ${category}
+                   ${product_category}`
+
+db.query(migration, (err,result)=>{
+    if(err){
+        console.log(err)
+        return 'Error al crear tablas';
+    }
+    else{
+        console.log('Tablas creadas correctamente', result)
+        return 'Tablas creadas correctamente';
+    }
+})

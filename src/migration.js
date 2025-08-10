@@ -6,10 +6,10 @@ const user = `CREATE TABLE IF NOT EXISTS user (
                     id_user INT PRIMARY KEY AUTO_INCREMENT,
                     name VARCHAR(50),
                     lastname VARCHAR(50),
-                    email VARCHAR(100),
+                    email VARCHAR(100) UNIQUE,
                     password VARCHAR(50),
                     image LONGTEXT,
-                    phone VARCHAR(30),
+                    phone VARCHAR(30) NOT NULL UNIQUE,
                     credit DECIMAL(20,2)
                     );`
 

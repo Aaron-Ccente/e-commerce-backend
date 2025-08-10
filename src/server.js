@@ -254,6 +254,24 @@ app.get("/furniture", (req,res)=>{
 
 //-----------------------------------------------------------------------------------------------
 
+// Get all orders of user
+app.get("/order", (req,res)=>{
+    const { id } = req.query; //http://localhost:8081/order?id=1 ejemplo :3
+    const query = `CALL getAllOrderOfUser()`
+    db.query(query, [id], (err, result)=>{
+        if(err){
+            console.log('Error al ejecutar el procedimiento almacenado', err)
+            return res.status(500).json({message: err.message})
+        }
+        else{
+            return res.status(200).json({success: true, data: result[0]?.[0]})
+        }
+    })
+})
+
+
+//-----------------------------------------------------------------------------------------------
+
 // User buys a piece of furniture
 app.post("/sale", (req, res)=>{
     const { id_order, amount, total_price } = req.body;

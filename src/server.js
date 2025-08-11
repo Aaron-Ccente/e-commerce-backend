@@ -1,6 +1,5 @@
-import express, { json } from 'express'
+import express from 'express'
 import cors from 'cors'
-import db from './database/db.js'
 import categoryRouters from './routes/category.routes.js'
 import userRouters from './routes/user.routes.js'
 import categoryRoutes from './routes/product.routes.js'

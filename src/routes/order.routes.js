@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllOrderOfUser, createOrderProductUser ,updateStateOrderOfUser } from "../controllers/order.controller";
+import { getAllOrderOfUser, createOrderProductUser ,updateStateOrderOfUser } from "../controllers/order.controller.js";
 
 const router = Router();
 router.get("/", getAllOrderOfUser);

@@ -4,6 +4,7 @@ import db from './database/db.js'
 import categoryRouters from './routes/category.routes.js'
 import userRouters from './routes/user.routes.js'
 import categoryRoutes from './routes/product.routes.js'
+import favoriteRoutes from './routes/favorite.routes.js'
 
 import { PORT } from './config/config.js';
 const app = express();
@@ -32,35 +33,8 @@ app.use("/product", categoryRoutes)
 
 //-----------------------------------------------------------------------------------------------
 
-// Get all the user's favorite furniture
-app.get("/favorite", (req, res)=>{
-    const {id} = req.body;
-    const query = `CALL getAllFavorites(?)`
-    db.query(query, [id], (err, result)=>{
-        if(err){
-            console.log("Error al ejecutar el procedimiento", err)
-            return res.status(500).json({message: err.message || "Error al obtener los muebles favoritos"})
-        }
-        else{
-            return res.status(200).json({success: true, data: result[0]?.[0]})
-        }
-    })
-})
-
-// Delete user's favorite furniture
-app.delete("/favorite/:id", (req, res)=>{
-    const {id_product} = req.params;
-    const query = `CALL deleteFavorite(?)`
-    db.query(query, [id_product], (err, result)=>{
-        if(err){
-            console.log("Error al ejecutar el procedimiento almacenado", err)
-            return res.status(500).json({message: err.message})
-        }
-        else{
-            return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
-        }
-    })
-})
+// Rutas para los muebles favoritos del usuario
+app.use("/favorite", favoriteRoutes)
 
 //-----------------------------------------------------------------------------------------------
 

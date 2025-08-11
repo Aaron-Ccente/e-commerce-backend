@@ -8,3 +8,5 @@ router.post("/", createUser);
 router.post("/login", loginUserOrAdmin);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser)
+
+export default router

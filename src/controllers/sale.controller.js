@@ -1,4 +1,4 @@
-import db from "../database/db";
+import db from "../database/db.js";
 
 // User buys a piece of furniture
 export const userBuysFurniture = (req, res)=>{

@@ -18,7 +18,8 @@ const product = `CREATE TABLE IF NOT EXISTS product (
                     name VARCHAR(50),
                     price DECIMAL(10,2),
                     image LONGTEXT,
-                    description VARCHAR(200)
+                    description VARCHAR(200),
+                    amount DECIMAL(10,2)
                     );`
 
 const user_order = `CREATE TABLE IF NOT EXISTS user_order (

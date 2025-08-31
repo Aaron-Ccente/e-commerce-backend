@@ -1,18 +1,21 @@
 import db from "../database/db.js";
+import { Product } from "../models/product.models.js";
 
 //Create one product (name, price, image, description, amount) -> amount is required for stock table with its product
-export const createProduct = (req,res)=>{
-    const { name, price, image, description, amount } = req.body;
-    const query = `CALL createProduct(?,?,?,?,?)`;
-    db.query(query, [name, price, image, description, amount], (err, result)=>{
-        if(err){
-            console.log('Error al ejecutar el procedimiento', err)
-            return res.status(500).json({message: err.message || 'Error al crear el producto'})
+export const createProduct = async  (req,res)=>{
+    const product = req.body;
+    try {
+        const result = await Product.create(product);
+        console.log(result)
+        if(result.success === true){
+            return res.status(200).json(result)
         }
         else{
-            return res.status(200).json({success: true, message: result[0]?.[0]?.mensaje})
+            return res.status(500).json(result)
         }
-    })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 //Get all products for see in Cards

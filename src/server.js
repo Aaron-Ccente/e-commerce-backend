@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import categoryRouters from './routes/category.routes.js'
 import userRouters from './routes/user.routes.js'
-import categoryRoutes from './routes/product.routes.js'
+import productRoutes from './routes/product.routes.js'
 import favoriteRoutes from './routes/favorite.routes.js'
 import filterRoutes from './routes/filter.routes.js'
 import orderRoutes from './routes/order.routes.js'
@@ -31,7 +31,7 @@ app.use("/user", userRouters)
 //-----------------------------------------------------------------------------------------------
 
 // Rutas para los productos
-app.use("/product", categoryRoutes)
+app.use("/product", productRoutes)
 
 //-----------------------------------------------------------------------------------------------
 
